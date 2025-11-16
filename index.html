@@ -1,97 +1,200 @@
 <!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>N213S — Welcome</title>
+  <title>— // LOST ENTRY // —</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    html,body{height:100%;overflow:hidden;font-family:"Inter",sans-serif;background:#050810;color:#f2f6ff;display:flex;align-items:center;justify-content:center;}
+    :root{
+      --bg1:#06070a;
+      --bg2:#0f0f14;
+      --accent:#7fffd4; /* neon mint */
+      --accent-2:#9b7bff; /* violet */
+      --glass: rgba(255,255,255,0.04);
+      --muted: rgba(255,255,255,0.55);
+      --card-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      color-scheme: dark;
+    }*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:linear-gradient(130deg,var(--bg1),var(--bg2));}
 
-    /* PARTICLE BACKGROUND */
-    canvas#particles {position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;}
+/* moving aurora / smoky lights */
+.aurora{
+  position:fixed;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0.8;
+  background: radial-gradient(400px 200px at 10% 20%, rgba(155,123,255,0.12), transparent 10%),
+              radial-gradient(500px 260px at 80% 80%, rgba(127,255,212,0.08), transparent 12%),
+              radial-gradient(300px 180px at 50% 40%, rgba(255,255,255,0.03), transparent 15%);
+  filter: blur(36px);
+  animation: float 18s ease-in-out infinite;
+}
+@keyframes float{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.03)}100%{transform:translateY(0) scale(1)}}
 
-    /* CARD */
-    .card {
-      position:relative;
-      z-index:2;
-      padding:40px 60px;
-      border-radius:20px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      text-align:center;
-      max-width:600px;
-      animation: fadeIn 1.4s ease forwards;
-    }
+/* subtle grain */
+.grain{position:fixed;inset:0;pointer-events:none;background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>');mix-blend-mode:overlay;}
 
-    @keyframes fadeIn {from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);}}
+/* main layout */
+.wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px}
+.card{
+  width:min(980px,95%);display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:18px;padding:34px;box-shadow:var(--card-shadow);
+  border:1px solid rgba(255,255,255,0.03);backdrop-filter: blur(6px) saturate(120%);
+}
+@media (max-width:880px){.card{grid-template-columns:1fr; padding:24px}}
 
-    h1 {font-size:clamp(32px,6vw,52px);font-weight:700;margin-bottom:12px;letter-spacing:-0.03em;}
-    p {font-size:clamp(14px,2vw,18px);opacity:0.86;margin-bottom:24px;}
-    a.btn {text-decoration:none;padding:12px 20px;border-radius:10px;color:#e8f2ff;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);font-weight:600;transition:0.2s;display:inline-block;}
-    a.btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,0.45);}
+.title{
+  font-family:Orbitron, Inter, sans-serif;color:var(--accent);letter-spacing:1.4px;font-size:clamp(26px,4.1vw,46px);margin:0 0 8px 0;text-shadow:0 6px 30px rgba(127,255,212,0.06);
+  display:flex;align-items:center;gap:12px
+}
+.title .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(180deg,var(--accent),var(--accent-2));box-shadow:0 6px 30px rgba(155,123,255,0.08)}
+
+.subtitle{color:var(--muted);margin:0 0 20px 0;font-weight:500}
+
+.cta-row{display:flex;gap:12px;align-items:center}
+.btn{
+  background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.05);padding:12px 16px;border-radius:10px;color:var(--accent);font-weight:700;cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;backdrop-filter: blur(6px)
+}
+.btn:active{transform:translateY(1px)}
+.btn.secondary{color:var(--muted);font-weight:600}
+
+.mystery{font-size:13px;color:rgba(255,255,255,0.18);padding:10px 12px;border-radius:8px;border:1px dashed rgba(255,255,255,0.03);}
+
+/* right column */
+.panel{padding:20px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.03));border-radius:12px}
+.lang-switch{display:flex;gap:8px;align-items:center;margin-bottom:14px}
+.lang-btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);cursor:pointer}
+.lang-btn.active{color:var(--accent);border-color:rgba(127,255,212,0.12);box-shadow:0 8px 30px rgba(127,255,212,0.03)}
+.meta{font-size:13px;color:var(--muted);line-height:1.4}
+
+footer{margin-top:18px;font-size:12px;color:rgba(255,255,255,0.22)}
+
+/* animated scanline */
+.scanline::after{content:'';position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;background-image:linear-gradient(transparent 60%, rgba(255,255,255,0.01) 61%, transparent 62%);mix-blend-mode:overlay}
+
+/* small responsive tweaks */
+.brand{font-size:11px;color:rgba(255,255,255,0.22);letter-spacing:1px}
+
   </style>
 </head>
 <body>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>  <main class="wrap">
+    <section class="card scanline" role="main" aria-labelledby="greeting">
+      <div>
+        <h1 id="greeting" class="title"><span class="dot" aria-hidden></span><span id="headingText">LOST ENTRY</span></h1>
+        <p id="subText" class="subtitle">If you weren't meant to be here, you are—briefly.</p><div class="mystery" id="mysteryText">There is no map. There is only a quiet door that opens when you stare long enough.</div>
 
-<canvas id="particles"></canvas>
+    <div style="height:18px;"></div>
 
-<div class="card">
-  <h1>Whoa, You Found Me.</h1>
-  <p>Not many make it here. So take a breath, look around, and embrace the chaos.  
-  Only the bold survive.</p>
-  <a class="btn" href="#" onclick="alert('Greetings, wanderer 👋'); return false;">Say Hi</a>
-</div>
+    <div class="cta-row">
+      <button class="btn" id="primaryBtn">Explore</button>
+      <button class="btn secondary" id="secondaryBtn">Why am I here?</button>
+    </div>
 
-<script>
-  // Simple particle animation
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let w = canvas.width = window.innerWidth;
-  let h = canvas.height = window.innerHeight;
+  </div>
 
-  const particles = [];
-  const particleCount = 120;
+  <aside class="panel">
+    <div class="lang-switch" role="navigation" aria-label="Language switcher">
+      <button class="lang-btn" data-lang="auto" id="langAuto">Detect</button>
+      <button class="lang-btn" data-lang="th" id="langTh">ไทย</button>
+      <button class="lang-btn" data-lang="en" id="langEn">EN</button>
+    </div>
 
-  function rand(min,max){return Math.random()*(max-min)+min;}
+    <div class="meta">
+      <div id="metaText">Auto language detection on. You can override here.</div>
+      <footer>Design: mysterious · Motion: subtle · Single-file</footer>
+    </div>
+  </aside>
+</section>
 
-  class Particle{
-    constructor(){
-      this.x=rand(0,w);
-      this.y=rand(0,h);
-      this.r=rand(1,4);
-      this.vx=rand(-0.5,0.5);
-      this.vy=rand(-0.5,0.5);
+  </main>  <script>
+    const translations = {
+      en:{
+        heading: 'LOST ENTRY',
+        subtitle: "If you weren't meant to be here, you are — briefly.",
+        mystery: 'There is no map. There is only a quiet door that opens when you stare long enough.',
+        primary: 'Explore',
+        secondary: 'Why am I here?',
+        meta: 'Auto language detection on. You can override here.'
+      },
+      th:{
+        heading: 'ทางเข้าโดยบังเอิญ',
+        subtitle: 'ถ้ามึงไม่ได้ตั้งใจมาที่นี่ ก็ถือว่ามาถึงแล้ว — ชั่วคราว',
+        mystery: 'ไม่มีแผนที่ มีแค่ประตูเงียบๆ ที่จะเปิดเมื่อมึงจ้องมันนานพอ',
+        primary: 'สำรวจ',
+        secondary: 'ทำไมกูถึงมาที่นี่?',
+        meta: 'ตรวจสอบภาษาจากเครื่องอัตโนมัติ กดเปลี่ยนได้ที่นี่'
+      }
+    };
+
+    const el = {
+      headingText: document.getElementById('headingText'),
+      subText: document.getElementById('subText'),
+      mysteryText: document.getElementById('mysteryText'),
+      primaryBtn: document.getElementById('primaryBtn'),
+      secondaryBtn: document.getElementById('secondaryBtn'),
+      metaText: document.getElementById('metaText'),
+      langBtns: document.querySelectorAll('.lang-btn')
+    };
+
+    // language handling
+    function applyLang(code){
+      const t = translations[code] || translations.en;
+      el.headingText.textContent = t.heading;
+      el.subText.textContent = t.subtitle;
+      el.mysteryText.textContent = t.mystery;
+      el.primaryBtn.textContent = t.primary;
+      el.secondaryBtn.textContent = t.secondary;
+      el.metaText.textContent = t.meta;
     }
-    update(){
-      this.x+=this.vx;
-      this.y+=this.vy;
-      if(this.x<0||this.x>w)this.vx*=-1;
-      if(this.y<0||this.y>h)this.vy*=-1;
-    }
-    draw(){
-      ctx.beginPath();
-      ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(255,255,255,0.3)';
-      ctx.fill();
-    }
-  }
 
-  for(let i=0;i<particleCount;i++)particles.push(new Particle());
+    function setActiveButton(code){
+      el.langBtns.forEach(b=>b.classList.toggle('active', b.dataset.lang===code));
+    }
 
-  function animate(){
-    ctx.clearRect(0,0,w,h);
-    particles.forEach(p=>{
-      p.update();
-      p.draw();
+    function detectAndApply(){
+      const lang = navigator.language || navigator.userLanguage || 'en';
+      const isThai = lang.toLowerCase().startsWith('th');
+      const code = isThai ? 'th' : 'en';
+      applyLang(code);
+      setActiveButton(code);
+      return code;
+    }
+
+    // initial: auto detect
+    let current = detectAndApply();
+
+    // lang switcher actions
+    document.getElementById('langAuto').addEventListener('click', ()=>{ current = detectAndApply(); setActiveButton(current); });
+    document.getElementById('langTh').addEventListener('click', ()=>{ applyLang('th'); setActiveButton('th'); current='th'; });
+    document.getElementById('langEn').addEventListener('click', ()=>{ applyLang('en'); setActiveButton('en'); current='en'; });
+
+    // tiny interactions
+    el.primaryBtn.addEventListener('click', ()=>{
+      // playful mystery interaction
+      const msg = current==='th' ? 'ก้าวเข้ามา... แต่ระวังจะไม่กลับเหมือนเดิม' : 'Step through... and beware you might not return the same.';
+      el.mysteryText.textContent = msg;
+      el.mysteryText.animate([{opacity:0, transform:'translateY(6px)'},{opacity:1, transform:'translateY(0)'}], {duration:420, easing:'ease-out'});
     });
-    requestAnimationFrame(animate);
-  }
-  animate();
+    el.secondaryBtn.addEventListener('click', ()=>{
+      const msg = current==='th' ? 'จงอย่ายุ่งกับประตูที่คิดว่ามันเป็นของใคร' : 'Some doors are quieter for a reason.';
+      el.mysteryText.textContent = msg;
+    });
 
-  window.addEventListener('resize',()=>{w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight;});
-</script>
+    // add subtle floating particles using canvas
+    (function(){
+      const cvs = document.createElement('canvas');
+      cvs.style.position='fixed';cvs.style.left=0;cvs.style.top=0; cvs.style.width='100%'; cvs.style.height='100%'; cvs.style.pointerEvents='none'; cvs.style.zIndex=0; document.body.appendChild(cvs);
+      const ctx=cvs.getContext('2d');
+      let W, H, particles=[];
+      function resize(){ W = cvs.width = innerWidth; H = cvs.height = innerHeight; particles=[]; for(let i=0;i<40;i++){particles.push({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*3, vx:(Math.random()-0.5)*0.2, vy:(Math.random()-0.5)*0.2, alpha:0.06+Math.random()*0.12})}}
+      addEventListener('resize', resize); resize();
+      function draw(){ ctx.clearRect(0,0,W,H); for(const p of particles){ p.x+=p.vx; p.y+=p.vy; if(p.x< -10) p.x=W+10; if(p.x>W+10) p.x=-10; if(p.y< -10) p.y=H+10; if(p.y>H+10) p.y=-10; ctx.beginPath(); ctx.fillStyle = 'rgba(255,255,255,'+p.alpha+')'; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); } requestAnimationFrame(draw);} draw();
+    })();
 
-</body>
+    // accessibility: allow toggle via keyboard
+    document.addEventListener('keydown', (e)=>{ if(e.key==='l'){ // press 'l' to toggle language
+      const next = current==='en' ? 'th' : 'en'; applyLang(next); setActiveButton(next); current=next; }
+    });
+
+  </script></body>
 </html>
